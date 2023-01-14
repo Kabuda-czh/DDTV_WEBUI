@@ -2,7 +2,7 @@
  * @Author: Kabuda-czh
  * @Date: 2023-01-15 00:47:51
  * @LastEditors: Kabuda-czh
- * @LastEditTime: 2023-01-15 02:15:51
+ * @LastEditTime: 2023-01-15 03:43:25
  * @FilePath: \DDTV_WEBUI\src\router\guard\permission.ts
  * @Description:
  *
@@ -22,11 +22,11 @@ export async function createPermissionGuard(
   // if (!permission) return;
 
   // 外链路由, 从新标签打开，返回上一个路由
-  if (to.meta.href) {
-    window.open(to.meta.href as any);
-    next({ path: from.fullPath, replace: true, query: from.query });
-    return;
-  }
+  // if (to.meta.href) {
+  //   window.open(to.meta.href as any);
+  //   next({ path: from.fullPath, replace: true, query: from.query });
+  //   return;
+  // }
 
   // const auth = useAuthStore();
   const isLogin = Boolean(getToken());
@@ -43,12 +43,12 @@ export async function createPermissionGuard(
       }
     ],
     // 不需要登录权限的页面直接通行
-    // [
-    //   !needLogin,
-    //   () => {
-    //     next();
-    //   }
-    // ],
+    [
+      !needLogin,
+      () => {
+        next();
+      }
+    ],
     // 未登录状态进入需要登录权限的页面
     [
       !isLogin && needLogin,

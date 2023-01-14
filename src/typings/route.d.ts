@@ -2,12 +2,13 @@
  * @Author: Kabuda-czh
  * @Date: 2023-01-15 01:36:55
  * @LastEditors: Kabuda-czh
- * @LastEditTime: 2023-01-15 01:57:37
+ * @LastEditTime: 2023-01-15 03:24:36
  * @FilePath: \DDTV_WEBUI\src\typings\route.d.ts
  * @Description:
  *
  * Copyright (c) 2023 by Kabuda-czh, All Rights Reserved.
  */
+
 /** 权限路由相关类型 */
 declare namespace AuthRoute {
   /** 多级路由分割符号 */
@@ -22,7 +23,7 @@ declare namespace AuthRoute {
     // | "no-permission"
     // | "service-error"
     // | "constant-page"
-    // | "not-found-page" // 捕获无效path的路由
+    | "not-found-page" // 捕获无效path的路由
     // 自定义路由
     | "home";
 
@@ -40,7 +41,7 @@ declare namespace AuthRoute {
    * - multi - 多级路由布局(三级路由或三级以上时，除第一级路由和最后一级路由，其余的采用该布局)
    * - self - 作为子路由，使用自身的布局(作为最后一级路由，没有子路由)
    */
-  type RouteComponent = "basic" | "blank" | "multi" | "self";
+  // type RouteComponent = "basic" | "blank" | "multi" | "self";
 
   /** 路由描述 */
   interface RouteMeta {
@@ -49,7 +50,7 @@ declare namespace AuthRoute {
     /** 路由的动态路径(需要动态路径的页面需要将path添加进范型参数) */
     dynamicPath?: PathToDynamicPath<"/login">;
     /** 作为单级路由的父级路由布局组件 */
-    singleLayout?: Extract<RouteComponent, "basic" | "blank">;
+    // singleLayout?: Extract<RouteComponent, "basic" | "blank">;
     /** 需要登录权限 */
     requiresAuth?: boolean;
     /**
@@ -92,7 +93,8 @@ declare namespace AuthRoute {
      * - multi: 多级路由布局(三级路由或三级以上时，除第一级路由和最后一级路由，其余的采用该布局)
      * - self: 作为子路由，使用自身的布局(作为最后一级路由，没有子路由)
      */
-    component?: RouteComponent;
+    // component?: RouteComponent;
+    component?: import("vue").Component;
     /** 子路由 */
     children?: Route[];
     /** 路由描述 */
