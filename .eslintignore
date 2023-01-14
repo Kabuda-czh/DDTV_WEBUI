@@ -1,0 +1,8 @@
+.vscode
+.idea
+public
+dist
+*.d.ts
+!.env-config.ts
+components.d.ts
+package.json
