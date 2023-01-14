@@ -1,0 +1,17 @@
+/*
+ * @Author: Kabuda-czh
+ * @Date: 2023-01-14 23:25:14
+ * @LastEditors: Kabuda-czh
+ * @LastEditTime: 2023-01-15 01:57:10
+ * @FilePath: \DDTV_WEBUI\src\styles\css\global.css
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by Kabuda-czh, All Rights Reserved.
+ */
+@import './transition.css';
+@import './reset.css';
+@import './scrollbar.css';
+
+html, body, #app {
+	height: 100%;
+}
