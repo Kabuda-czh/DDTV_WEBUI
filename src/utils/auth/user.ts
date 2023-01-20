@@ -2,7 +2,7 @@
  * @Author: Kabuda-czh
  * @Date: 2023-01-15 00:28:47
  * @LastEditors: Kabuda-czh
- * @LastEditTime: 2023-01-15 01:26:25
+ * @LastEditTime: 2023-01-20 14:22:50
  * @FilePath: \DDTV_WEBUI\src\utils\auth\user.ts
  * @Description:
  *
@@ -27,19 +27,19 @@ export function removeToken() {
 }
 
 /** 获取refresh token */
-export function getRefreshToken() {
-  return getLocal<string>(EnumStorageKey["refresh-token"]) || "";
-}
+// export function getRefreshToken() {
+//   return getLocal<string>(EnumStorageKey["refresh-token"]) || "";
+// }
 
 /** 设置refresh token */
-export function setRefreshToken(token: string) {
-  setLocal(EnumStorageKey["refresh-token"], token);
-}
+// export function setRefreshToken(token: string) {
+//   setLocal(EnumStorageKey["refresh-token"], token);
+// }
 
 /** 去除refresh token */
-export function removeRefreshToken() {
-  removeLocal(EnumStorageKey["refresh-token"]);
-}
+// export function removeRefreshToken() {
+//   removeLocal(EnumStorageKey["refresh-token"]);
+// }
 
 /** 获取用户信息 */
 export function getUserInfo() {
@@ -58,13 +58,13 @@ export function setUserInfo(userInfo: Auth.UserInfo) {
 }
 
 /** 去除用户信息 */
-export function removeUserInfo() {
-  removeLocal(EnumStorageKey["user-info"]);
-}
+// export function removeUserInfo() {
+//   removeLocal(EnumStorageKey["user-info"]);
+// }
 
 /** 去除用户相关缓存 */
 export function clearAuthStorage() {
   removeToken();
-  removeRefreshToken();
-  removeUserInfo();
+  // removeRefreshToken();
+  // removeUserInfo();
 }
