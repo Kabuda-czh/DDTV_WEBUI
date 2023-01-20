@@ -2,7 +2,7 @@
  * @Author: Kabuda-czh
  * @Date: 2023-01-15 00:06:05
  * @LastEditors: Kabuda-czh
- * @LastEditTime: 2023-01-15 00:06:32
+ * @LastEditTime: 2023-01-20 14:13:37
  * @FilePath: \DDTV_WEBUI\src\config\service.ts
  * @Description:
  *
@@ -53,4 +53,7 @@ export const ERROR_STATUS = {
 export const NO_ERROR_MSG_CODE: (string | number)[] = [];
 
 /** token失效需要刷新token的code(这里的66666只是个例子，需要将后端表示token过期的code填进来) */
-export const REFRESH_TOKEN_CODE: (string | number)[] = [66666];
+// export const REFRESH_TOKEN_CODE: (string | number)[] = [66666];
+
+/** cookie失效的code */
+export const COOKIE_INVALID_CODE: (string | number)[] = [6000];
