@@ -2,13 +2,14 @@
  * @Author: Kabuda-czh
  * @Date: 2023-01-15 00:47:51
  * @LastEditors: Kabuda-czh
- * @LastEditTime: 2023-01-15 03:43:25
+ * @LastEditTime: 2023-01-20 13:54:34
  * @FilePath: \DDTV_WEBUI\src\router\guard\permission.ts
  * @Description:
  *
  * Copyright (c) 2023 by Kabuda-czh, All Rights Reserved.
  */
-import { exeStrategyActions, getToken } from "@/utils";
+import { useAuthStore } from "@/store";
+import { exeStrategyActions } from "@/utils";
 import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
 /** 处理路由页面的权限 */
@@ -28,16 +29,16 @@ export async function createPermissionGuard(
   //   return;
   // }
 
-  // const auth = useAuthStore();
-  const isLogin = Boolean(getToken());
-  const permissions = (to.meta.permissions as any[]) || [];
+  const auth = useAuthStore();
+  // const isLogin = Boolean(getToken());
+  const permissions = to.meta.permissions || [];
   const needLogin = Boolean(to.meta?.requiresAuth) || Boolean(permissions.length);
   // const hasPermission = !permissions.length || permissions.includes(auth.userInfo.userRole);
 
   const actions: Common.StrategyAction[] = [
     // 已登录状态跳转登录页，跳转至首页
     [
-      isLogin && to.name === "login",
+      auth.isLogin && to.name === "login",
       () => {
         next({ name: "home" });
       }
@@ -51,7 +52,7 @@ export async function createPermissionGuard(
     ],
     // 未登录状态进入需要登录权限的页面
     [
-      !isLogin && needLogin,
+      !auth.isLogin && needLogin,
       () => {
         const redirect = to.fullPath;
         next({ name: "login", query: { redirect } });
@@ -63,7 +64,7 @@ export async function createPermissionGuard(
     //   () => {
     //     next();
     //   }
-    // ]
+    // ],
     // [
     //   // 登录状态进入需要登录权限的页面，无权限，重定向到无权限页面
     //   isLogin && needLogin && !hasPermission,
