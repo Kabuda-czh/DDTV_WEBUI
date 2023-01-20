@@ -1,15 +1,15 @@
-import { AxiosResponse } from "axios";
 /*
  * @Author: Kabuda-czh
  * @Date: 2023-01-15 00:10:10
  * @LastEditors: Kabuda-czh
- * @LastEditTime: 2023-01-15 02:50:23
+ * @LastEditTime: 2023-01-20 14:28:49
  * @FilePath: \DDTV_WEBUI\src\service\request\instance.ts
  * @Description:
  *
  * Copyright (c) 2023 by Kabuda-czh, All Rights Reserved.
  */
-import { REFRESH_TOKEN_CODE } from "@/config";
+import { COOKIE_INVALID_CODE } from "@/config";
+import { useAuthStore } from "@/store";
 import {
   getToken,
   handleAxiosError,
@@ -19,8 +19,7 @@ import {
   transformRequestData
 } from "@/utils";
 import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders } from "axios";
-import axios from "axios";
-import { handleRefreshToken } from "./helpers";
+import axios, { AxiosResponse } from "axios";
 
 /**
  * 封装axios请求类
@@ -39,10 +38,9 @@ export default class CustomAxiosInstance {
   constructor(
     axiosConfig: AxiosRequestConfig,
     backendConfig: Service.BackendResultConfig = {
-      codeKey: "code",
-      dataKey: "data",
-      msgKey: "message",
-      successCode: 200
+      code: "code",
+      cmd: "data",
+      message: "message"
     }
   ) {
     this.backendConfig = backendConfig;
@@ -70,22 +68,21 @@ export default class CustomAxiosInstance {
       }
     );
     this.instance.interceptors.response.use(
-      (async (response: AxiosResponse<any>) => {
+      (async (response: AxiosResponse<any, any>) => {
         const { status } = response;
         if (status === 200 || status < 300 || status === 304) {
           const backend = response.data;
-          const { codeKey, dataKey, successCode } = this.backendConfig;
+          const { code, cmd } = this.backendConfig;
+
           // 请求成功
-          if (backend[codeKey] === successCode) {
-            return handleServiceResult(null, backend[dataKey]);
+          if (backend[code] === 0) {
+            return handleServiceResult(null, backend[cmd]);
           }
 
-          // token失效, 刷新token
-          if (REFRESH_TOKEN_CODE.includes(backend[codeKey])) {
-            const config = await handleRefreshToken(response.config);
-            if (config) {
-              return this.instance.request(config);
-            }
+          // cookie失效
+          if (COOKIE_INVALID_CODE.includes(backend[code])) {
+            const { resetAuthStore } = useAuthStore();
+            resetAuthStore();
           }
 
           const error = handleBackendError(backend, this.backendConfig);

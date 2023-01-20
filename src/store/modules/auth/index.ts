@@ -2,7 +2,7 @@
  * @Author: Kabuda-czh
  * @Date: 2023-01-15 00:34:24
  * @LastEditors: Kabuda-czh
- * @LastEditTime: 2023-01-15 01:56:35
+ * @LastEditTime: 2023-01-20 14:30:05
  * @FilePath: \DDTV_WEBUI\src\store\modules\auth\index.ts
  * @Description:
  *
@@ -10,8 +10,8 @@
  */
 import { useRouterPush } from "@/composables";
 import { router } from "@/router";
-import { fetchLogin, fetchUserInfo } from "@/service";
-import { clearAuthStorage, getToken, getUserInfo, setRefreshToken, setToken, setUserInfo } from "@/utils";
+import { fetchLogin } from "@/service";
+import { clearAuthStorage, getUserInfo, setToken } from "@/utils";
 import { defineStore } from "pinia";
 import { unref } from "vue";
 // import { useRouteStore } from "../route";
@@ -21,21 +21,24 @@ interface AuthState {
   /** 用户信息 */
   userInfo: Auth.UserInfo;
   /** 用户token */
-  token: string;
+  // token: string;
   /** 登录的加载状态 */
   loginLoading: boolean;
+  /** 是否已经登陆 */
+  isLogin: boolean;
 }
 
 export const useAuthStore = defineStore("auth-store", {
   state: (): AuthState => ({
     userInfo: getUserInfo(),
-    token: getToken(),
-    loginLoading: false
+    // token: getToken(),
+    loginLoading: false,
+    isLogin: false
   }),
   getters: {
     /** 是否登录 */
     isLogin(state) {
-      return Boolean(state.token);
+      return Boolean(state.isLogin);
     }
   },
   actions: {
@@ -58,12 +61,18 @@ export const useAuthStore = defineStore("auth-store", {
     },
     /**
      * 处理登录后成功或失败的逻辑
-     * @param backendToken - 返回的token
+     * @param cookie - 返回的cookie
      */
-    async handleActionAfterLogin(backendToken: ApiAuth.Token) {
+    async handleActionAfterLogin(cookie: ApiAuth.Cookie) {
       const { toLoginRedirect } = useRouterPush(false);
 
-      const loginSuccess = await this.loginByToken(backendToken);
+      // const loginSuccess = await this.loginByToken(cookie);
+      let loginSuccess = false;
+      if (cookie) {
+        setToken(cookie);
+        this.isLogin = true;
+        loginSuccess = true;
+      }
 
       if (loginSuccess) {
         // 跳转登录后的地址
@@ -84,28 +93,29 @@ export const useAuthStore = defineStore("auth-store", {
     },
     /**
      * 根据token进行登录
-     * @param backendToken - 返回的token
+     * @param cookie - 返回的cookie
      */
-    async loginByToken(backendToken: ApiAuth.Token) {
+    async loginByToken(cookie: ApiAuth.Cookie) {
       let successFlag = false;
 
       // 先把token存储到缓存中(后面接口的请求头需要token)
-      const { token, refreshToken } = backendToken;
-      setToken(token);
-      setRefreshToken(refreshToken);
+      // const { token, refreshToken } = backendToken;
+      setToken(cookie);
+      // setRefreshToken(refreshToken);
 
       // 获取用户信息
-      const { data } = await fetchUserInfo();
-      if (data) {
-        // 成功后把用户信息存储到缓存中
-        setUserInfo(data);
+      // const { data } = await fetchUserInfo();
+      // if (data) {
+      // 成功后把用户信息存储到缓存中
+      // setUserInfo(data);
 
-        // 更新状态
-        this.userInfo = data;
-        this.token = token;
+      // 更新状态
+      // this.userInfo = data;
+      // this.token = token;
+      this.isLogin = true;
 
-        successFlag = true;
-      }
+      successFlag = true;
+      // }
 
       return successFlag;
     },
