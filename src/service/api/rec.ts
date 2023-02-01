@@ -2,7 +2,7 @@
  * @Author: Kabuda-czh
  * @Date: 2023-01-20 16:48:47
  * @LastEditors: Kabuda-czh
- * @LastEditTime: 2023-01-20 16:58:13
+ * @LastEditTime: 2023-01-20 17:54:15
  * @FilePath: \DDTV_WEBUI\src\service\api\rec.ts
  * @Description:
  *
@@ -14,53 +14,50 @@ import { fetchApiByPost } from "./utils";
  * 获取录制中的任务情况详细情况
  *
  * 返回值为
- * @returns {Promise<RequestResult<?>>}
+ * @returns {Promise<RequestResult<RecRecordingInfo>>} {@link ApiAuth.RecRecordingInfo}
  */
 export function fetchRecRecordingInfo() {
-  //FIXME: 需提供返回值
-  return fetchApiByPost("Rec_RecordingInfo");
+  return fetchApiByPost<ApiAuth.RecRecordingInfo[]>("Rec_RecordingInfo");
 }
 
 /**
  * 获取录制中的任务情况简略情况
  *
  * 返回值为
- * @returns {Promise<RequestResult<?>>}
+ * @returns {Promise<RequestResult<RecRecordingInfoLite>>} {@link ApiAuth.RecRecordingInfoLite}
  */
 export function fetchRecRecordingInfoLite() {
-  //FIXME: 需提供返回值
-  return fetchApiByPost("Rec_RecordingInfo_Lite");
+  return fetchApiByPost<ApiAuth.RecRecordingInfoLite[]>("Rec_RecordingInfo_Lite");
 }
 
 /**
  * 获取已经录制完成的任务详细情况
  *
  * 返回值为
- * @returns {Promise<RequestResult<?>>}
+ * @returns {Promise<RequestResult<RecRecordingInfo>>} {@link ApiAuth.RecRecordingInfo}
  */
 export function fetchRecRecordCompleteInfon() {
-  //FIXME: 需提供返回值
-  return fetchApiByPost("Rec_RecordCompleteInfon");
+  return fetchApiByPost<ApiAuth.RecRecordingInfo[]>("Rec_RecordCompleteInfon");
 }
 
 /**
  * 获取已经录制完成的任务简略情况
  *
  * 返回值为
- * @returns {Promise<RequestResult<?>>}
+ * @returns {Promise<RequestResult<RecRecordingInfoLite>>} {@link ApiAuth.RecRecordingInfoLite}
  */
 export function fetchRecordCompleteInfonLite() {
-  //FIXME: 需提供返回值
-  return fetchApiByPost("Rec_RecordCompleteInfon_Lite");
+  return fetchApiByPost<ApiAuth.RecRecordingInfoLite[]>("Rec_RecordCompleteInfon_Lite");
 }
 
 /**
  * 取消某个录制任务
  *
+ * @param {Number} uid 要取消任务的账号UID
+ *
  * 返回值为
- * @returns {Promise<RequestResult<?>>}
+ * @returns {Promise<RequestResult<string>>} 返回数据说明
  */
-export function fetchRecCancelDownload() {
-  //FIXME: 需提供返回值
-  return fetchApiByPost("Rec_CancelDownload");
+export function fetchRecCancelDownload(uid: number) {
+  return fetchApiByPost<string>("Rec_CancelDownload", { UID: uid });
 }

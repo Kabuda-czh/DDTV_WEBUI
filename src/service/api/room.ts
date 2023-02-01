@@ -2,7 +2,7 @@
  * @Author: Kabuda-czh
  * @Date: 2023-01-20 16:58:42
  * @LastEditors: Kabuda-czh
- * @LastEditTime: 2023-01-20 17:12:12
+ * @LastEditTime: 2023-01-20 17:53:25
  * @FilePath: \DDTV_WEBUI\src\service\api\room.ts
  * @Description:
  *
@@ -45,11 +45,10 @@ export function fetchRoomSummaryInfo() {
  * @param {Number} uid 要增加到房间配置中的账号UID
  *
  * 返回值为
- * @returns {Promise<RequestResult<?>>}
+ * @returns {Promise<RequestResult<string>>} 返回数据说明
  */
-export function fetchRoomAdd(uid: string) {
-  //FIXME: 需提供返回值
-  return fetchApiByPost("Room_Add", { UID: uid });
+export function fetchRoomAdd(uid: number) {
+  return fetchApiByPost<string>("Room_Add", { UID: uid });
 }
 
 /**
@@ -58,11 +57,10 @@ export function fetchRoomAdd(uid: string) {
  * @param {Number} uid 要删除房间配置中的账号UID
  *
  * 返回值为
- * @returns {Promise<RequestResult<?>>}
+ * @returns {Promise<RequestResult<string>>} 返回数据说明
  */
-export function fetchRoomDel(uid: string) {
-  //FIXME: 需提供返回值
-  return fetchApiByPost("Room_Del", { UID: uid });
+export function fetchRoomDel(uid: number) {
+  return fetchApiByPost<string>("Room_Del", { UID: uid });
 }
 
 /**
@@ -72,11 +70,10 @@ export function fetchRoomDel(uid: string) {
  * @param {Boolean} isAutoRec 打开\关闭开播自动录制
  *
  * 返回值为
- * @returns {Promise<RequestResult<?>>}
+ * @returns {Promise<RequestResult<string>>} 返回数据说明
  */
-export function fetchRoomAutoRec(uid: string, isAutoRec: boolean) {
-  //FIXME: 需提供返回值
-  return fetchApiByPost("Room_AutoRec", { UID: uid, IsAutoRec: isAutoRec });
+export function fetchRoomAutoRec(uid: number, isAutoRec: boolean) {
+  return fetchApiByPost<string>("Room_AutoRec", { UID: uid, IsAutoRec: isAutoRec });
 }
 
 /**
@@ -86,9 +83,8 @@ export function fetchRoomAutoRec(uid: string, isAutoRec: boolean) {
  * @param {Boolean} isRecDanmu 打开\关闭该房间的弹幕录制功能
  *
  * 返回值为
- * @returns {Promise<RequestResult<?>>}
+ * @returns {Promise<RequestResult<string>>} 返回数据说明
  */
-export function fetchRoomDanmuRec(uid: string, isRecDanmu: boolean) {
-  //FIXME: 需提供返回值
-  return fetchApiByPost("Room_DanmuRec", { UID: uid, IsRecDanmu: isRecDanmu });
+export function fetchRoomDanmuRec(uid: number, isRecDanmu: boolean) {
+  return fetchApiByPost<string>("Room_DanmuRec", { UID: uid, IsRecDanmu: isRecDanmu });
 }

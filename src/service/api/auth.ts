@@ -2,7 +2,7 @@
  * @Author: Kabuda-czh
  * @Date: 2023-01-15 00:10:10
  * @LastEditors: Kabuda-czh
- * @LastEditTime: 2023-01-20 14:56:37
+ * @LastEditTime: 2023-01-20 17:57:37
  * @FilePath: \DDTV_WEBUI\src\service\api\auth.ts
  * @Description:
  *
@@ -21,33 +21,22 @@ import { fetchApiByPost } from "./utils";
 
 /**
  * 登录
- * @param userName - 用户名
- * @param password - 密码
+ * @param {String} userName - 用户名
+ * @param {String} password - 密码
+ *
+ * 返回值为
+ * @returns {Promise<RequestResult<Cookie>>} {@link ApiAuth.Cookie}
  */
 export function fetchLogin(userName: string, password: string) {
-  // return request.post<ApiAuth.Cookie>("/login", { userName, password });
   return fetchApiByPost<ApiAuth.Cookie>("Login", { UserName: userName, Password: password });
 }
 
-/** 获取用户信息 */
-// export function fetchUserInfo() {
-//   return request.get<any>("/getUserInfo");
-// }
-
-/**
- * 获取用户路由数据
- * @param userId - 用户id
- * @description 后端根据用户id查询到对应的角色类型，并将路由筛选出对应角色的路由数据返回前端
- */
-// export function fetchUserRoutes(userId: string) {
-//   return request.post<ApiRoute.Route>("/getUserRoutes", { userId });
-// }
-
 /**
  * 获取登陆状态
- * @param refreshToken
+ *
+ * 返回值为
+ * @returns {Promise<RequestResult<LoginStatus>>} {@link ApiAuth.LoginStatus}
  */
 export function fetchLoginState() {
-  // return request.post<ApiAuth.Cookie>("/Login_State");
-  return fetchApiByPost("Login_State");
+  return fetchApiByPost<ApiAuth.LoginStatus>("Login_State");
 }
